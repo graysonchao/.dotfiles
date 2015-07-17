@@ -40,12 +40,12 @@ echo -n "Copying dotfiles... "
 if [[ $FORCE = "True" ]] ; then
   echo Force on - overwriting destination.
   for file in $(cat $BASEDIR/include) ; do
-    cp -R $BASEDIR/$file $HOMEDIR
+    cp -R $BASEDIR/dotfiles/$file $HOMEDIR
   done
 else
   echo Force off. Will not overwrite destination.
   for file in $(cat $BASEDIR/include) ; do
-    cp -R -n $BASEDIR/$file $HOMEDIR
+    cp -R -n $BASEDIR/dotfiles/$file $HOMEDIR
   done
 fi
 
