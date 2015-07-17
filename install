@@ -39,10 +39,14 @@ BASEDIR=$(dirname $0)
 echo -n "Copying dotfiles... "
 if [[ $FORCE = "True" ]] ; then
   echo Force on - overwriting destination.
-  cp -R $BASEDIR/* $HOMEDIR
+  for file in $(cat $BASEDIR/include) ; do
+    cp -R $BASEDIR/$file $HOMEDIR
+  done
 else
   echo Force off. Will not overwrite destination.
-  cp -R -n $BASEDIR/* $HOMEDIR
+  for file in $(cat $BASEDIR/include) ; do
+    cp -R -n $BASEDIR/$file $HOMEDIR
+  done
 fi
 
 if [[ -d "$BASEDIR/dotfiles/.vim/bundle" ]] ; then
