@@ -58,6 +58,15 @@ else
 fi
 
 if [[ -d "$HOMEDIR/.vim" ]] ; then
-  mv $HOMEDIR/.vim $HOMEDIR/.vim.backup
+  if [[ -h "$HOMEDIR/.vim" ]] ; then
+    mv $HOMEDIR/.vim $HOMEDIR/.vim.backup
+  else
+    echo ".vim is already a symlink."
+  fi
+fi
+
+if ! [[ -d "$HOMEDIR/.vim" ]] ; then
   ln -s $HOMEDIR/.dotfiles/.vim $HOMEDIR/.vim
 fi
+
+vim +BundleInstall +qall
