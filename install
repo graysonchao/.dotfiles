@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Use > 1 to consume two arguments per pass in the loop (e.g. each
+# argument has a corresponding value to go with it).
+# Use > 0 to consume one or more arguments per pass in the loop (e.g.
+# some arguments don't have a corresponding value to go with it such
+# as in the --default example).
+#
+# http://stackoverflow.com/a/14203146
+
+while [[ $# > 0 ]] ; do
+  key="$1"
+
+  case $key in
+      # Overwrite existing files with the same name
+      -f|--force)
+        FORCE="True"
+      ;;
+      -h|--help)
+        echo "Keep your dotfiles up to date."
+        echo "Usage: install [-f|--force] [-s|--sync] [-h|--help]"
+        echo
+        echo "-f/--force: overwrite existing files of the same name"
+        echo "-s/--sync: try to update files in the dotfiles dir with ones from your homedir"
+      ;;
+      *)
+        # anything else
+      ;;
+  esac
+
+  shift # past argument or value
+done
+
+
+USER=$(whoami)
+HOMEDIR=$(eval echo ~$USER)
+BASEDIR=$(dirname $0)
+
+echo -n "Copying dotfiles... "
+if [[ $FORCE = "True" ]] ; then
+  echo Force on - overwriting destination.
+  cp -R $BASEDIR/* $HOMEDIR
+else
+  echo Force off. Will not overwrite destination.
+  cp -R -n $BASEDIR/* $HOMEDIR
+fi
+
+echo "Executing post hooks."
+# pass the environment to post hooks
+# (hack to keep our current variables)
+BASEDIR=$BASEDIR HOMEDIR=$HOMEDIR $BASEDIR/post_hooks
