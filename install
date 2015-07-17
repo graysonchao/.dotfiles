@@ -45,7 +45,15 @@ else
   cp -R -n $BASEDIR/* $HOMEDIR
 fi
 
-echo "Executing post hooks."
-# pass the environment to post hooks
-# (hack to keep our current variables)
-BASEDIR=$BASEDIR HOMEDIR=$HOMEDIR $BASEDIR/post_hooks
+if [[ -d "$BASEDIR/dotfiles/.vim/bundle" ]] ; then
+  echo "Vundle already installed."
+else
+  echo "Installing Vundle..."
+  mkdir -p $BASEDIR/dotfiles/.vim/bundle
+  git clone https://github.com/gmarik/Vundle.vim.git $BASEDIR/.vim/bundle/Vundle.vim
+fi
+
+if [[ -d "$HOMEDIR/.vim" ]] ; then
+  mv $HOMEDIR/.vim $HOMEDIR/.vim.backup
+  ln -s $HOMEDIR/.dotfiles/.vim $HOMEDIR/.vim
+fi
