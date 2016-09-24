@@ -1,0 +1,15 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+  name = Grayson Chao
+  email = grayson.chao@gmail.com
+
+[core]
+  editor = /usr/bin/vim
+[alias]
+  st = status
+  cm = commit
+  a  = add
+  co = checkout
+  cl = clone
+  d  = diff

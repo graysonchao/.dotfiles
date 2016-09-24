@@ -1,0 +1,2 @@
+alias zrc="source ~/.zshrc"
+alias webpack="webpack --display-error-details"
